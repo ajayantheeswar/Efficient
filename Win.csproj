@@ -33,12 +33,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="bin\Release\Efficient\Assets\schneider-logo.PNG" />
+    <Content Include="bin\Release\Efficient\Win.deps.json" />
+    <Content Include="bin\Release\Efficient\Win.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Assets\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Release\Efficient\Assets\template-beta.xlsx" />
+    <None Include="bin\Release\Efficient\Assets\template.xlsx" />
+    <None Include="bin\Release\Efficient\Microsoft.Win32.SystemEvents.dll" />
+    <None Include="bin\Release\Efficient\QRCoder.dll" />
+    <None Include="bin\Release\Efficient\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll" />
+    <None Include="bin\Release\Efficient\runtimes\win\lib\net6.0\System.Drawing.Common.dll" />
+    <None Include="bin\Release\Efficient\System.Drawing.Common.dll" />
+    <None Include="bin\Release\Efficient\Win.dll" />
+    <None Include="bin\Release\Efficient\Win.exe" />
+    <None Include="bin\Release\Efficient\Win.pdb" />
   </ItemGroup>
 
   <ItemGroup>
