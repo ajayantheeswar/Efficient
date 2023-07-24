@@ -1,0 +1,139 @@
+﻿<Window x:Class="Win.ScanQR"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Win"
+        mc:Ignorable="d"
+        Title="ScanQR" Height="732" Width="1100" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-6">
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/BackGround.jpg"/>
+        </Grid.Background>
+        <DataGrid x:Name="ProductData" d:ItemsSource="{Binding}" Visibility="Collapsed" Margin="0,99,-1,48"  AutoGenerateColumns="False" CanUserAddRows="False" CellEditEnding="ProductDataCellEditEnding">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="{Binding RowColor}"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="_ID" Width="*" Binding="{Binding _ID}" IsReadOnly="True" Visibility="Hidden">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="SR.NO" Width="*" Binding="{Binding SrNO}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="CATNO" Width="*" Binding="{Binding CATNO}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="QTY" Width="*"  Binding="{Binding Qty}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="CHECKACT1" Width="*"  Binding="{Binding CHECKACT1}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="REMARK1" Width="*"  Binding="{Binding CHECKREMARK1}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="SHORTAGE1" Width="*"  Binding="{Binding CHECKSHORTAGE1}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="CHECKACT2" Width="*"  Binding="{Binding CHECKACT2}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="REMARK2" Width="*"  Binding="{Binding CHECKREMARK2}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="SHORTAGE2" Width="*"  Binding="{Binding CHECKSHORTAGE2}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="CHECKACT3" Width="*"  Binding="{Binding CHECKACT3}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="REMARK3" Width="*"  Binding="{Binding CHECKREMARK3}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="SHORTAGE3" Width="*"  Binding="{Binding CHECKSHORTAGE3}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="Select File" HorizontalAlignment="Left" Margin="52,67,0,0" VerticalAlignment="Top" Click="Button_Click" Width="109" Height="20"/>
+        <Button Content="Load File" HorizontalAlignment="Left" Margin="157,67,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="82" Height="20"/>
+        <Button Content="Save and Download" HorizontalAlignment="Left" Margin="263,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Click="Button_Click_2" Height="20" Width="109"/>
+        <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Text="{Binding SearchString, UpdateSourceTrigger=LostFocus}" Margin="650,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="249" Height="31" KeyDown="Capture_Enter_KeyDown" FontSize="14"/>
+        <Button x:Name="Mark" Content="Mark" HorizontalAlignment="Left" Margin="733,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Width="101" Click="Mark_Click" Height="20"/>
+        <Label x:Name="FileName" Content="" HorizontalAlignment="Left" Height="27" Margin="55,30,0,0" VerticalAlignment="Top" Width="183" Foreground="#FFEF1010" Background="#FFF0F0F0"/>
+        <ComboBox x:Name="checkComboBox" HorizontalAlignment="Left" Margin="423,35,0,0" VerticalAlignment="Top" Width="120"/>
+
+        <!--<Rectangle Height="49" Margin="0,698,0,0" Stroke="Black" VerticalAlignment="Top" Fill="#FFFDFCFC" HorizontalAlignment="Center" Width="1100"/>
+        <Image x:Name="lOGO" Source="Assets/schneider-logo.PNG" HorizontalAlignment="Left" Margin="891,674,0,1" Width="210"/>-->
+
+        <Grid x:Name="BackDrop" Background="#4C000007" Margin="0,-31,0,-1">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,311,0,0" x:Name="ProgressLoader">
+                <Rectangle HorizontalAlignment="Center" Height="100" Stroke="Black" VerticalAlignment="Top" Width="380" Fill="White"/>
+                <ProgressBar x:Name="ProgressBarSticker" HorizontalAlignment="Center" Height="18" Margin="0,32,0,0" VerticalAlignment="Top" Width="312" Background="#FFF9F3F3" OpacityMask="#FF720F7D"/>
+                <Label x:Name="ProgressMessage" Content="" HorizontalAlignment="Center" Height="29" Margin="0,55,0,0" VerticalAlignment="Top" Width="234" RenderTransformOrigin="0.5,0.932" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Window>
