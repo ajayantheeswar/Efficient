@@ -356,9 +356,10 @@ namespace Win
                         tempFile.Dispose();
                     }
 
-                    if ((rowNumber + 1) % 65 == 0)
+
+                    if ((rowNumber + 3) % 65 == 0)
                     {
-                        Range PB = (Range)xlWorkSheet.get_Range("A" + (rowNumber + 1));
+                        Range PB = (Range)xlWorkSheet.get_Range("A" + (rowNumber+4));
 
                         xlWorkSheet.HPageBreaks.Add(PB);
                     }
@@ -375,7 +376,8 @@ namespace Win
                     i++;
                 }
 
-
+                
+                
 
                 //Here saving the file in xlsx
                 xlWorkBook.SaveAs(FilePath, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
