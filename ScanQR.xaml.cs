@@ -539,7 +539,7 @@ namespace Win
 
         private void QREditTextBoxLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-
+            Quantity.Focus();
         }
     }
 }
