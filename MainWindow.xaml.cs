@@ -3,6 +3,8 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.IO.Enumeration;
 using System.Linq;
@@ -39,13 +41,86 @@ namespace Win
             ProgressBarSticker.Value = 0;
 
             BackDrop.Visibility = Visibility.Collapsed;
-            
+
+            LoadingExcelWorker = new BackgroundWorker();
+            LoadingExcelWorker.DoWork += LoadingExcelWorker_DoWork;
+            LoadingExcelWorker.ProgressChanged += LoadingExcelWorker_ProgressChanged;
+            LoadingExcelWorker.RunWorkerCompleted += LoadingExcelWorker_RunWorkerCompleted;
+            LoadingExcelWorker.WorkerReportsProgress = true;
+
+        }
+
+        public class LoadWorkerArgument
+        {
+            public string? FilePath;
+        }
+
+        public class LoadWorkerResult
+        {
+            public List<ProductRow> DataRowList;
+
+            public LoadWorkerResult(List<ProductRow> dataRowList)
+            {
+                DataRowList = dataRowList;
+            }
+        }
+
+        private void LoadingExcelWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+
+            if (e.Cancelled)
+            {
+                Console.WriteLine("Operation Cancelled");
+            }
+            else if (e.Error != null)
+            {
+                Console.WriteLine("Error in Process :" + e.Error);
+            }
+            else
+            {
+                List<ProductRow> DataRowList = e.Result as List<ProductRow>;
+
+                this.products.Clear();
+                DataRowList.ForEach(row =>
+                {
+                    this.products.Add(row);
+                });
+                RowsCount.Content = "Sticker Count : " + products.Count;
+                this.BackDrop.Visibility = Visibility.Collapsed;
+                if (!(DataRowList.Count > 0))
+                {
+                    MessageBox.Show("Rows are Empty. Please Select Proper File.");
+                }
+                
+
+            }
+            ProgressMessage.Content = "";
+            ProgressBarSticker.Value = 0;
+        }
+
+        private void LoadingExcelWorker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        {
+            int progress = e.ProgressPercentage;
+            ProgressMessage.Content = "" + progress + " % " + " Completed";
+            ProgressBarSticker.Value = progress;
+        }
+
+        private void LoadingExcelWorker_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            LoadWorkerArgument Args = e.Argument as LoadWorkerArgument;
+
+            if (Args != null)
+            {
+                List<ProductRow> DataRowList = ExtractData(Args.FilePath,LoadingExcelWorker);
+                e.Result = DataRowList;
+            }
         }
 
         String FilePath = "";
         List<ProductRow> products;
 
         public BackgroundWorker backgroundWorker;
+        public BackgroundWorker LoadingExcelWorker;
 
         public class GenrateStickersArguement
         {
@@ -114,49 +189,19 @@ namespace Win
             
         }
 
-        //private void Button_Click_1(object sender, RoutedEventArgs e)
-        //{
-
-
-        //    OpenFileDialog openFileDialog = new OpenFileDialog();
-
-
-        //    openFileDialog.Filter = "Excel |*.xlsx";
-        //    openFileDialog.FilterIndex = 2;
-        //    openFileDialog.RestoreDirectory = true;
-
-
-        //    if (openFileDialog.ShowDialog() == true)
-        //    {
-        //        //Get the path of specified file
-        //        FilePath = openFileDialog.FileName;
-        //        string[] FileSection = FilePath.Split('\\');
-        //        FileName.Content = FileSection.Last();
-        //        List<ProductRow> products = extractData();
-        //        RowsCount.Content = products.Count;
-        //        WorkBookNew wb = new WorkBookNew(products);
-
-        //        SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-        //        saveFileDialog1.Filter = "Excel |*.xlsx";
-        //        saveFileDialog1.RestoreDirectory = true;
-
-        //        if (saveFileDialog1.ShowDialog() == true)
-        //        {
-        //            wb.WriteStickerToExcelPrint(saveFileDialog1.FileName);
-        //        }
-
-        //    }
-
-        //}
-
-        public List<ProductRow> extractData()
+       
+        public List<ProductRow> ExtractData(string FilePath, BackgroundWorker LoadingBackGroundWorker)
         {
             List<ProductRow> productList = new List<ProductRow>();
+
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBookSource = null;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheetSource = null;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             try
             {
                 if(!string.IsNullOrEmpty(FilePath))
                 {
-                    Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                    
 
                     
                     if (xlApp == null)
@@ -165,13 +210,12 @@ namespace Win
                         return productList;
                     }
 
-                    Microsoft.Office.Interop.Excel.Workbook xlWorkBookSource;
-                    Microsoft.Office.Interop.Excel.Worksheet xlWorkSheetSource;
                     xlWorkBookSource = xlApp.Workbooks.Open(FilePath);
                     // Selected First Worksheet
                     xlWorkSheetSource = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBookSource.Worksheets.get_Item(1);
 
-                    
+                    int totalRows = xlWorkSheetSource.UsedRange.Columns[1, Type.Missing].Rows.Count;
+                    int count = 0;
                     int rowNumber = 1;
                     while(true)
                     {
@@ -194,24 +238,37 @@ namespace Win
                             {
                                 product.generateQR();
                                 productList.Add(product);
+
+                                if (totalRows > 0)
+                                {
+                                    int progress = (int)(((count + 1) / (decimal)totalRows) * 100);
+                                    LoadingBackGroundWorker.ReportProgress(progress);
+                                }
+
+
+                                count++;
                             }
                         }
                         
                         rowNumber++;
                     }
 
-                    xlWorkBookSource.Close(false);
-                    xlApp.Quit();
-
-                    Marshal.ReleaseComObject(xlWorkSheetSource);
-                    Marshal.ReleaseComObject(xlWorkBookSource);
-                    Marshal.ReleaseComObject(xlApp);
+                    
                 }
             }
             catch(Exception e) {
                 // Known Exception - Alternative Required
-              
+                if(xlWorkBookSource != null)
+                    xlWorkBookSource.Close(false);
+                if(xlApp != null)
+                    xlApp.Quit();
+
+                if (xlWorkSheetSource != null) Marshal.ReleaseComObject(xlWorkSheetSource);
+                if (xlWorkBookSource != null) Marshal.ReleaseComObject(xlWorkBookSource);
+                Marshal.ReleaseComObject(xlApp);
             }
+
+            
             return productList;
         }
 
@@ -226,8 +283,13 @@ namespace Win
         {
             if(!string.IsNullOrEmpty(FilePath))
             {
-                this.products = extractData();
-                RowsCount.Content = "Sticker Count : " + products.Count;
+                LoadWorkerArgument Args = new LoadWorkerArgument();
+                Args.FilePath = FilePath;
+
+                this.BackDrop.Visibility = Visibility.Visible;
+                LoadingExcelWorker.RunWorkerAsync(argument: Args);
+
+
             }
             else
             {

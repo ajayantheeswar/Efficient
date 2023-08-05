@@ -75,7 +75,7 @@ namespace Win
         public string getQRText()
         {
             return ProductionNumber + " "
-                + CATNO + " " + QTY + " ";
+                + CATNO + " " + QTY + "\t";
         }
 
         public string getStringSticker()
@@ -266,8 +266,8 @@ namespace Win
             }
 
 
-            Microsoft.Office.Interop.Excel.Workbook xlWorkBook;
-            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook  = null;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet = null;
 
             try
             {
@@ -376,8 +376,9 @@ namespace Win
                     i++;
                 }
 
-                
-                
+
+
+               
 
                 //Here saving the file in xlsx
                 xlWorkBook.SaveAs(FilePath, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
@@ -385,15 +386,21 @@ namespace Win
 
 
                 xlWorkBook.Close(false, misValue, misValue);
+
+                xlApp.Quit();
+
+                
             }
             catch(Exception Ex)
             {
 
             }
-      
-            
 
-            
+
+            Marshal.ReleaseComObject(xlWorkSheet);
+            Marshal.ReleaseComObject(xlWorkBook);
+
+
             Marshal.ReleaseComObject(xlApp);
 
             

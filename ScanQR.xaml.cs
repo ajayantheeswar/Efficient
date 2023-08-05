@@ -187,7 +187,7 @@ namespace Win
             {
                 return;
             }            
-            bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text);
+            bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text, Quantity.Text);
             if (isSuccess)
             {
                 this.SearchBox.Text = string.Empty;
@@ -203,6 +203,7 @@ namespace Win
 
         public string FilePath;
         public string SearchString;
+        public string QuantityString;
 
         
 
@@ -294,15 +295,16 @@ namespace Win
             
         }
 
-        public bool SearchAndUpdateScanned(string QRValue)
+        public bool SearchAndUpdateScanned(string QRValue,string Quantity)
         {
             string[] qrsplit = QRValue.Trim().Split(' ');
             bool isSearchFound = false;
             if (qrsplit.Length >= 3) {
                 string SrNo = qrsplit[0].Trim();
                 string CATNO = qrsplit[1].Trim();
-                bool hasActualQuantity = qrsplit.Length == 4;
-                string ActualQTY = hasActualQuantity ? qrsplit[3].Trim() : "";
+                int ActualQTY = 0;
+                bool hasActualQuantity = (!string.IsNullOrEmpty(Quantity)) | int.TryParse(Quantity, out ActualQTY);
+                
                 //string SrNo = qrsplit[0];
 
                 int index = 0;
@@ -311,13 +313,13 @@ namespace Win
                     
 
                     if(row.CATNO.ToLower().Equals(CATNO.ToLower()) &&
-                        row.SrNO.ToLower().Equals(SrNo.ToLower()))
+                        row.BRDNO.ToLower().Equals(SrNo.ToLower()))
                     {
                         ComboData? SelectedItem = checkComboBox.SelectedItem as ComboData;
                         string shortage = string.Empty;
                         isSearchFound = true;
 
-                        row.RowColor = EditableDataViewExcel.Green;
+                        row.RowColor = EditableDataViewExcel.Yellow;
 
                         if (SelectedItem == null)
                         {
@@ -325,42 +327,47 @@ namespace Win
                         }
                         if (SelectedItem.ID == CheckList.Check1)
                         {
-                            row.CHECKREMARK1 = DateTime.Now.ToString();
+                            row.FABTIME = DateTime.Now.ToString();
+                            row.FABCHKBY = UpdatedBy.Text;
                             
                             if(hasActualQuantity)
                             {
-                                row.CHECKACT1 = ActualQTY.ToString();
-                                row.CHECKSHORTAGE1 = GetTotalShortage(row.Qty, ActualQTY);
+                                row.FABACT = ActualQTY.ToString();
+                                row.FABSHORTAGE = GetTotalShortage(row.Qty, ActualQTY.ToString());
                             } else
                             {
-                                row.CHECKACT1 = row.Qty;
+                                row.FABACT = row.Qty;
+                                row.FABSHORTAGE = string.Empty;
                             }
                         }
                         else if (SelectedItem.ID == CheckList.Check2)
                         {
-                            row.CHECKREMARK2 = DateTime.Now.ToString();
+                            row.PCTIME = DateTime.Now.ToString();
+                            row.PCCHKBY = UpdatedBy.Text;
 
                             if (hasActualQuantity)
                             {
-                                row.CHECKACT2 = ActualQTY.ToString();
-                                row.CHECKSHORTAGE2 = GetTotalShortage(row.Qty, ActualQTY);
+                                row.PCACT = ActualQTY.ToString();
+                                row.PCSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
 
                             }else
                             {
-                                row.CHECKACT2 = row.Qty;
+                                row.PCACT = row.Qty;
+                                row.PCSHRT = string.Empty;
                             }
                         }
                         else if (SelectedItem.ID == CheckList.Check3)
                         {
-                            row.CHECKREMARK3 = DateTime.Now.ToString();
-
+                            row.HDTIME = DateTime.Now.ToString();
+                            row.HDCHKBY = UpdatedBy.Text;
                             if (hasActualQuantity)
                             {
-                                row.CHECKACT3 = ActualQTY.ToString();
-                                row.CHECKSHORTAGE3 = GetTotalShortage(row.Qty, ActualQTY);
+                                row.HDACT = ActualQTY.ToString();
+                                row.HDSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
                             } else
                             {
-                                row.CHECKACT3 = row.Qty;
+                                row.HDACT = row.Qty;
+                                row.HDSHRT = string.Empty;
                             }
                         }
                        this.ProductData.ScrollIntoView(this.ProductData.Items[index]);
@@ -429,10 +436,12 @@ namespace Win
             {
                 return;
             }
-            bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text);
+            bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text, Quantity.Text);
             if (isSuccess)
             {
                 this.SearchBox.Text = string.Empty;
+                this.Quantity.Text = string.Empty;
+                 this.SearchBox.Focus();
             }
         }
 
@@ -443,10 +452,12 @@ namespace Win
                 {
                     return;
                 }
-                bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text);
+                bool isSuccess = this.SearchAndUpdateScanned(SearchBox.Text,Quantity.Text);
                 if(isSuccess)
                 {
                     this.SearchBox.Text = string.Empty;
+                    this.Quantity.Text = string.Empty;
+                    this.SearchBox.Focus();
                 }
             }
         }
@@ -475,29 +486,32 @@ namespace Win
 
                     int difference = QTY - AcutalNumber;
 
-                    if (bindingPath.Equals("CHECKACT1") && SelectedItem.ID == CheckList.Check1)
+                    if (bindingPath.Equals("FABACT") && SelectedItem.ID == CheckList.Check1)
                     {
                         
                         if (isValid)
                         {
-                            DataRow.CHECKSHORTAGE1 = difference != 0 ? (difference).ToString(): "";
-                            DataRow.CHECKREMARK1 = DateTime.Now.ToString();
+                            DataRow.FABSHORTAGE = difference != 0 ? (difference).ToString(): "";
+                            DataRow.FABTIME = DateTime.Now.ToString();
+                            DataRow.FABCHKBY = UpdatedBy.Text;
                         }
                         
-                    }else if (bindingPath.Equals("CHECKACT2") && SelectedItem.ID == CheckList.Check2) {
+                    }else if (bindingPath.Equals("PCACT") && SelectedItem.ID == CheckList.Check2) {
                         if (isValid)
                         {
-                            DataRow.CHECKSHORTAGE2 = difference != 0 ? (difference).ToString() : "";
-                            DataRow.CHECKREMARK2 = DateTime.Now.ToString();
+                            DataRow.PCSHRT = difference != 0 ? (difference).ToString() : "";
+                            DataRow.PCSHRT = DateTime.Now.ToString();
+                            DataRow.PCCHKBY = UpdatedBy.Text;
                         }
 
 
-                    } else if (bindingPath.Equals("CHECKACT2") && SelectedItem.ID == CheckList.Check3)
+                    } else if (bindingPath.Equals("H/OACT") && SelectedItem.ID == CheckList.Check3)
                     {
                         if (isValid)
                         {
-                            DataRow.CHECKSHORTAGE3 = difference != 0 ? (difference).ToString() : "";
-                            DataRow.CHECKREMARK3 = DateTime.Now.ToString();
+                            DataRow.HDSHRT = difference != 0 ? (difference).ToString() : "";
+                            DataRow.HDTIME = DateTime.Now.ToString();
+                            DataRow.HDCHKBY = UpdatedBy.Text;
                         }
                     }
 
@@ -505,6 +519,19 @@ namespace Win
                 }
             }
         }
-       
+
+        private void QREditTextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            
+            Quantity.Focus();
+        }
+        
+        private void QR_Capture_Enter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                Quantity.Focus();
+            }
+        }
     }
 }

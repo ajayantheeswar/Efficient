@@ -31,17 +31,17 @@ namespace Win
                 new ComboData()
                 {
                     ID = CheckList.Check1,
-                    Text = "CHECK 1"
+                    Text = "FAB"
                 },
                 new ComboData()
                 {
                     ID = CheckList.Check2,
-                    Text = "CHECK 2"
+                    Text = "POWDER COATING"
                 },
                 new ComboData()
                 {
                     ID = CheckList.Check3,
-                    Text = "CHECK 3"
+                    Text = "HANDOVER"
                 },
             };
 
@@ -62,7 +62,7 @@ namespace Win
         
         public string _ID;
         private string rowColor;
-        private string srNO;
+        private string brdNo;
         private string raw;
         private string cATNO;
         private string noOfBends;
@@ -71,20 +71,26 @@ namespace Win
         private string compLoc;
         private string qty;
         
-        private string checkact1;
-        private string checkremark1;
-        private string checkshortage1;
+        private string fabact;
+        private string fabtime;
+        private string fabshrt;
+        private string fabchkby;
 
-        private string checkact2;
-        private string checkremark2;
-        private string checkshortage2;
+        private string pcact;
+        private string pctime;
+        private string pcshrt;
+        private string pcchkby;
 
-        private string checkact3;
-        private string checkremark3;
-        private string checkshortage3;
+        private string hdact;
+        private string hdtime;
+        private string hdshrt;
+        private string hdchkby;
 
         public static string[] HeaderList = new string[] {
-            "SR.NO", "RAW", "CAT NO", "No.of.Bends", "CAT DESC", "NET WT. + SCRAP", "COMP LOG", "QTY", "CHECK 1 ACT", "CHECK 1 REMARK","CHECK 1 SHORTAGE" ,"CHECK 2 ACT", "CHECK 2 REMARK","CHECK 2 SHORTAGE","CHECK 3 ACT", "CHECK 3 REMARK","CHECK 3 SHORTAGE" };
+            "BRD.NO", "RAW", "CAT NO", "No.of.Bends", "CAT DESC", "NET WT. + SCRAP", "COMP LOG", "QTY",
+            "FAB ACT", "FAB TIME","FAB SHORTAGE","FAB CHK BY",
+            "PC ACT", "PC TIME","PC SHORTAGE","PC CHK BY" ,
+            "H/O ACT", "H/O TIME","H/O SHORTAGE","H/O CHK BY" , };
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -106,13 +112,13 @@ namespace Win
             }
         }
 
-        public string SrNO
+        public string BRDNO
         {
-            get => srNO; set
+            get => brdNo; set
             {
-                if (!value.Equals(this.SrNO))
+                if (!value.Equals(this.brdNo))
                 {
-                    srNO = value;
+                    brdNo = value;
                     NotifyPropertyChanged();
                 }
 
@@ -189,131 +195,179 @@ namespace Win
             }
         }
 
-        public string CHECKACT1
+        public string FABACT
         {
-            get => checkact1; set
+            get => fabact; set
             {
-                if (!value.Equals(this.checkact1))
+                if (!value.Equals(this.fabact))
                 {
-                    checkact1 = value;
+                    fabact = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKREMARK1
+        public string FABTIME
         {
-            get => checkremark1; set
+            get => fabtime; set
             {
-                if (!value.Equals(this.checkremark1))
+                if (!value.Equals(this.fabtime))
                 {
-                    checkremark1 = value;
+                    fabtime = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKSHORTAGE1
+        public string FABSHORTAGE
         {
-            get => checkshortage1; set
+            get => fabshrt; set
             {
-                if (!value.Equals(this.checkshortage1))
+                if (!value.Equals(this.fabshrt))
                 {
-                    checkshortage1 = value;
+                    fabshrt = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKACT2
+        public string FABCHKBY
         {
-            get => checkact2; set
+            get => fabchkby; set
             {
-                if (!value.Equals(this.checkact2))
+                if (!value.Equals(this.fabchkby))
                 {
-                    checkact2 = value;
+                    fabchkby = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKREMARK2
+        public string PCACT
         {
-            get => checkremark2; set
+            get => pcact; set
             {
-                if (!value.Equals(this.checkremark2))
+                if (!value.Equals(this.pcact))
                 {
-                    checkremark2 = value;
+                    pcact = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKSHORTAGE2
+        public string PCTIME
         {
-            get => checkshortage2; set
+            get => pctime; set
             {
-                if (!value.Equals(this.checkshortage2))
+                if (!value.Equals(this.pctime))
                 {
-                    checkshortage2 = value;
+                    pctime = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKACT3
+        public string PCSHRT
         {
-            get => checkact3; set
+            get => pcshrt; set
             {
-                if (!value.Equals(this.checkact3))
+                if (!value.Equals(this.pcshrt))
                 {
-                    checkact3 = value;
+                    pcshrt = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKREMARK3
+        public string PCCHKBY
         {
-            get => checkremark3; set
+            get => pcchkby; set
             {
-                if (!value.Equals(this.checkremark3))
+                if (!value.Equals(this.pcchkby))
                 {
-                    checkremark3 = value;
+                    pcchkby = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
 
-        public string CHECKSHORTAGE3
+        public string HDACT
         {
-            get => checkshortage3; set
+            get => hdact; set
             {
-                if (!value.Equals(this.checkshortage3))
+                if (!value.Equals(this.hdact))
                 {
-                    checkshortage3 = value;
+                    hdact = value;
                     NotifyPropertyChanged();
                 }
 
             }
         }
+
+        public string HDTIME
+        {
+            get => hdtime; set
+            {
+                if (!value.Equals(this.hdtime))
+                {
+                    hdtime = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public string HDSHRT
+        {
+            get => hdshrt; set
+            {
+                if (!value.Equals(this.hdshrt))
+                {
+                    hdshrt = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public string HDCHKBY
+        {
+            get => hdchkby; set
+            {
+                if (!value.Equals(this.hdchkby))
+                {
+                    hdchkby = value;
+                    NotifyPropertyChanged();
+                }
+
+            }
+        }
+
+        public const string Yellow = "Yellow";
 
         public const string Green = "Green";
 
         public static bool WriteDataToExcel(ObservableCollection<EditableDataViewExcel> Data, string FilePath,BackgroundWorker SaveFileWorker)
         {
             bool isSuccess = false;
+
+
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook = null;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet = null;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+
+
             try
             {
-                Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                
 
                 if (xlApp == null)
                 {
@@ -322,8 +376,7 @@ namespace Win
                 }
 
 
-                Microsoft.Office.Interop.Excel.Workbook xlWorkBook;
-                Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+
                 object misValue = System.Reflection.Missing.Value;
 
                 xlWorkBook = xlApp.Workbooks.Add();
@@ -334,7 +387,9 @@ namespace Win
                 {
                     xlWorkSheet.Cells[1, i+1] = HeaderList[i];
                     ((Range)xlWorkSheet.Cells[1, i+1]).Font.Bold = true;
-                    ((Range)xlWorkSheet.Cells[1, i+1]).Columns.AutoFit();
+                    ((Range)xlWorkSheet.Cells[1, i + 1]).WrapText = true;
+                    ((Range)xlWorkSheet.Cells[1, i + 1]).Columns.Font.Size = 8;
+                    //((Range)xlWorkSheet.Cells[1, i+1]).Columns.AutoFit();
                 }
                 
                 
@@ -344,7 +399,7 @@ namespace Win
                 int count = 0;
                 Data.ToList().ForEach((product) =>
                 {
-                    xlWorkSheet.Cells[RowNumber, 1] = product.SrNO;
+                    xlWorkSheet.Cells[RowNumber, 1] = product.BRDNO;
                     xlWorkSheet.Cells[RowNumber, 2] = product.Raw;
                     xlWorkSheet.Cells[RowNumber, 3] = product.CATNO;
                     xlWorkSheet.Cells[RowNumber, 4] = product.NoOfBends;
@@ -353,18 +408,27 @@ namespace Win
                     xlWorkSheet.Cells[RowNumber, 7] = product.CompLoc; 
                     xlWorkSheet.Cells[RowNumber, 8] = product.Qty;
                      
-                    xlWorkSheet.Cells[RowNumber, 9] = product.CHECKACT1; 
-                    xlWorkSheet.Cells[RowNumber, 10] = product.CHECKREMARK1;
-                    xlWorkSheet.Cells[RowNumber, 11] = product.CHECKSHORTAGE1;
+                    xlWorkSheet.Cells[RowNumber, 9] = product.FABACT; 
+                    xlWorkSheet.Cells[RowNumber, 10] = product.FABTIME;
+                    xlWorkSheet.Cells[RowNumber, 11] = product.FABSHORTAGE;
+                    xlWorkSheet.Cells[RowNumber, 12] = product.FABCHKBY;
 
-                    xlWorkSheet.Cells[RowNumber, 12] = product.CHECKACT2;
-                    xlWorkSheet.Cells[RowNumber, 13] = product.CHECKREMARK2;
-                    xlWorkSheet.Cells[RowNumber, 14] = product.CHECKSHORTAGE2;
+                    xlWorkSheet.Cells[RowNumber, 13] = product.PCACT;
+                    xlWorkSheet.Cells[RowNumber, 14] = product.PCTIME;
+                    xlWorkSheet.Cells[RowNumber, 15] = product.PCSHRT;
+                    xlWorkSheet.Cells[RowNumber, 16] = product.PCCHKBY;
 
-                    xlWorkSheet.Cells[RowNumber, 15] = product.CHECKACT3;
-                    xlWorkSheet.Cells[RowNumber, 16] = product.CHECKREMARK3;
-                    xlWorkSheet.Cells[RowNumber, 17] = product.CHECKSHORTAGE3;
+                    xlWorkSheet.Cells[RowNumber, 17] = product.HDACT;
+                    xlWorkSheet.Cells[RowNumber, 18] = product.HDTIME;
+                    xlWorkSheet.Cells[RowNumber, 19] = product.HDSHRT;
+                    xlWorkSheet.Cells[RowNumber, 20] = product.HDCHKBY;
 
+                    for(int i = 1; i <= 20; i++)
+                    {
+                        var oRange = ((Range)xlWorkSheet.Cells[RowNumber, i]);
+                        oRange.Font.Size = 8;
+                        oRange.HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                    }
                     
                     decimal progress = ((count + 1) / (decimal)Data.Count) * 100;
 
@@ -375,22 +439,14 @@ namespace Win
                     count++;
                 });
 
-                for (int i = 0; i < HeaderList.Length; i++)
-                {
-                    ((Range)xlWorkSheet.Cells[1, i + 1]).Font.Bold = true;
-                    ((Range)xlWorkSheet.Cells[1, i + 1]).ColumnWidth += 10;
-                }
+               
 
                 xlWorkBook.SaveAs(FilePath, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook, misValue,
                 misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
 
 
                 xlWorkBook.Close(false, misValue, misValue);
-                xlApp.Quit();
-
-                Marshal.ReleaseComObject(xlWorkSheet);
-                Marshal.ReleaseComObject(xlWorkBook);
-                Marshal.ReleaseComObject(xlApp);
+                
 
                 
             }
@@ -398,6 +454,13 @@ namespace Win
             {
 
             }
+
+            xlApp.Quit();
+
+            if(xlWorkSheet != null) Marshal.ReleaseComObject(xlWorkSheet);
+            if (xlWorkBook != null)  Marshal.ReleaseComObject(xlWorkBook);
+            Marshal.ReleaseComObject(xlApp);
+
             return isSuccess;
         }
        
@@ -406,11 +469,14 @@ namespace Win
         {
             List<EditableDataViewExcel> editableDataViewExcels = new List<EditableDataViewExcel>();
 
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBookSource =  null;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheetSource = null;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
             try
             {
                 if (!string.IsNullOrEmpty(FilePath))
                 {
-                    Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                   
 
 
                     if (xlApp == null)
@@ -419,8 +485,7 @@ namespace Win
                         return editableDataViewExcels;
                     }
 
-                    Microsoft.Office.Interop.Excel.Workbook xlWorkBookSource;
-                    Microsoft.Office.Interop.Excel.Worksheet xlWorkSheetSource;
+
                     xlWorkBookSource = xlApp.Workbooks.Open(FilePath);
                     // Selected First Worksheet
                     xlWorkSheetSource = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBookSource.Worksheets.get_Item(1);
@@ -439,7 +504,7 @@ namespace Win
                             EditableDataViewExcel product = new EditableDataViewExcel();
                             product._ID = new Guid().ToString();
                             product.RowColor = White;
-                            product.SrNO = getCellsValue(xlWorkSheetSource, rowNumber, 1);
+                            product.BRDNO = getCellsValue(xlWorkSheetSource, rowNumber, 1);
                             product.Raw = getCellsValue(xlWorkSheetSource, rowNumber, 2);
                             product.CATNO = getCellsValue(xlWorkSheetSource, rowNumber, 3);
                             product.NoOfBends = getCellsValue(xlWorkSheetSource, rowNumber, 4);
@@ -448,21 +513,24 @@ namespace Win
                             product.CompLoc = getCellsValue(xlWorkSheetSource, rowNumber, 7);
                             product.Qty = getCellsValue(xlWorkSheetSource, rowNumber, 8);
 
-                            product.CHECKACT1 = getCellsValue(xlWorkSheetSource, rowNumber, 9); 
-                            product.CHECKREMARK1 = getCellsValue(xlWorkSheetSource, rowNumber, 10); 
-                            product.CHECKSHORTAGE1 = getCellsValue(xlWorkSheetSource, rowNumber, 11);
+                            product.FABACT = getCellsValue(xlWorkSheetSource, rowNumber, 9); 
+                            product.FABTIME = getCellsValue(xlWorkSheetSource, rowNumber, 10); 
+                            product.FABSHORTAGE = getCellsValue(xlWorkSheetSource, rowNumber, 11);
+                            product.FABCHKBY = getCellsValue(xlWorkSheetSource, rowNumber, 12);
 
-                            product.CHECKACT2 = getCellsValue(xlWorkSheetSource, rowNumber, 12);
-                            product.CHECKREMARK2 = getCellsValue(xlWorkSheetSource, rowNumber, 13);
-                            product.CHECKSHORTAGE2 = getCellsValue(xlWorkSheetSource, rowNumber, 14);
+                            product.PCACT = getCellsValue(xlWorkSheetSource, rowNumber, 13);
+                            product.PCTIME = getCellsValue(xlWorkSheetSource, rowNumber, 14);
+                            product.PCSHRT = getCellsValue(xlWorkSheetSource, rowNumber, 15);
+                            product.PCCHKBY = getCellsValue(xlWorkSheetSource, rowNumber, 16);
 
-                            product.CHECKACT3 = getCellsValue(xlWorkSheetSource, rowNumber, 15);
-                            product.CHECKREMARK3 = getCellsValue(xlWorkSheetSource, rowNumber, 16);
-                            product.CHECKSHORTAGE3 = getCellsValue(xlWorkSheetSource, rowNumber, 17);
+                            product.HDACT = getCellsValue(xlWorkSheetSource, rowNumber, 17);
+                            product.HDTIME = getCellsValue(xlWorkSheetSource, rowNumber, 18);
+                            product.HDSHRT = getCellsValue(xlWorkSheetSource, rowNumber, 19);
+                            product.HDCHKBY = getCellsValue(xlWorkSheetSource, rowNumber, 20);
 
 
                             if (
-                                string.IsNullOrEmpty(product.SrNO) ||
+                                string.IsNullOrEmpty(product.BRDNO) ||
                                 string.IsNullOrEmpty(product.CATNO) ||
                                 string.IsNullOrEmpty(product.Qty)
                                 )
@@ -490,12 +558,6 @@ namespace Win
                     xlWorkBookSource.Close(false);
                     xlApp.Quit();
 
-                   
-                    string value = "Rows Loaded.";
-                    
-                    Marshal.ReleaseComObject(xlWorkSheetSource);
-                    Marshal.ReleaseComObject(xlWorkBookSource);
-                    Marshal.ReleaseComObject(xlApp);
                 }
             }
             catch (Exception e)
@@ -503,6 +565,11 @@ namespace Win
                 // Known Exception - Alternative Required
 
             }
+            if(xlWorkSheetSource != null) Marshal.ReleaseComObject(xlWorkSheetSource);
+            if (xlWorkBookSource != null) Marshal.ReleaseComObject(xlWorkBookSource);
+            Marshal.ReleaseComObject(xlApp);
+
+
             return editableDataViewExcels;
         }
 

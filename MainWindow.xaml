@@ -5,29 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Win"
         mc:Ignorable="d"
-        Title="Sticker Generator" Height="532" Width="800" ResizeMode="NoResize">
+        Title="Sticker Generator" Height="532" Width="800" ResizeMode="CanMinimize">
 
     <Grid Margin="0,0,0,0">
 
         <Grid.Background>
             <ImageBrush ImageSource="/BackGround.jpg"/>
         </Grid.Background>
-        <Rectangle Height="50" Stroke="Black" VerticalAlignment="Top" Fill="#FFFDFCFC" HorizontalAlignment="Center" Width="802" Margin="0,467,0,0"  />
 
-        <Button x:Name="Load" Content="Load" HorizontalAlignment="Left" Margin="278,318,0,0" VerticalAlignment="Top" Click="Load_Button_Click" Height="21" Width="43"/>
-        <Label x:Name="FileName" Content="" HorizontalAlignment="Left" Height="27" Margin="77,312,0,0" VerticalAlignment="Top" Width="183" Foreground="#FFEF1010" Background="#FFF0F0F0"/>
+        <Rectangle HorizontalAlignment="Left" Height="38" Stroke="Black" VerticalAlignment="Top" Width="200" Margin="584,456,0,0">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/schneider-logo.PNG"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid HorizontalAlignment="Left" Height="63" Margin="113,324,0,0" VerticalAlignment="Top" Width="348">
 
-        <Label x:Name="RowsCount" Content="" HorizontalAlignment="Left" Height="30" Margin="77,361,0,0" VerticalAlignment="Top" Width="183" RenderTransformOrigin="0.112,0.55" Background="#FFF7F7F7"/>
-        <Button Content="Scan QR" HorizontalAlignment="Left" Margin="610,312,0,0" VerticalAlignment="Top" Height="72" Click="Button_Click_1" Width="79"/>
-        <Button Content="Browse" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top" Click="Button_Click" Height="21" Width="43"/>
-        <Button Content="Generate Stickers" HorizontalAlignment="Left" Margin="278,363,0,0" VerticalAlignment="Top" Click="Generate_Button_Click" Height="21" Width="112"/>
+            <Button x:Name="Load" Content="Load File" HorizontalAlignment="Left" Margin="236,1,0,0" VerticalAlignment="Top" Click="Load_Button_Click" Height="27" Width="112"/>
+            <Label x:Name="FileName" Content="" HorizontalAlignment="Left" Height="27" Margin="48,0,0,0" VerticalAlignment="Top" Width="183" Foreground="#FFEF1010" Background="#FFF0F0F0"/>
 
-        <Image x:Name="lOGO" Source="Assets/schneider-logo.PNG" HorizontalAlignment="Left" Margin="617,472,0,3" Width="199"/>
-        <Grid x:Name="BackDrop" Background="#4C000007" Margin="0,-31,0,-1">
+            <Label x:Name="RowsCount" Content="" HorizontalAlignment="Left" Height="30" Margin="0,33,0,0" VerticalAlignment="Top" Width="231" RenderTransformOrigin="0.112,0.55" Background="#FFF7F7F7"/>
+            <Button Content="Browse" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Click="Button_Click" Height="27" Width="43"/>
+            <Button Content="Generate Stickers" HorizontalAlignment="Left" Margin="236,35,0,0" VerticalAlignment="Top" Click="Generate_Button_Click" Height="28" Width="112"/>
+        </Grid>
+        <Button Content="Scan QR" HorizontalAlignment="Left" Margin="584,324,0,0" VerticalAlignment="Top" Height="63" Click="Button_Click_1" Width="79"/>
+        <Grid x:Name="BackDrop" Background="#4C000007" Margin="0,-31,0,-1" Visibility="Collapsed">
             <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,174,0,0" Stroke="Black" VerticalAlignment="Top" Width="380" Fill="White"/>
             <ProgressBar x:Name="ProgressBarSticker" HorizontalAlignment="Center" Height="18" Margin="0,206,0,0" VerticalAlignment="Top" Width="312" Background="#FFF9F3F3" OpacityMask="#FF720F7D"/>
             <Label x:Name="ProgressMessage" Content="" HorizontalAlignment="Center" Height="29" Margin="0,229,0,0" VerticalAlignment="Top" Width="234" RenderTransformOrigin="0.5,0.932" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
+
 
 
     </Grid>

@@ -5,13 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Win"
         mc:Ignorable="d"
-        Title="ScanQR" Height="732" Width="1100" ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-6">
-
+        Title="ScanQR" Height="630" Width="1100" ResizeMode="CanMinimize">
+    <Grid x:Name="Backgroud" Height="600" Margin="0,0,0,0">
         <Grid.Background>
             <ImageBrush ImageSource="/BackGround.jpg"/>
         </Grid.Background>
-        <DataGrid x:Name="ProductData" d:ItemsSource="{Binding}" Visibility="Collapsed" Margin="0,99,-1,48"  AutoGenerateColumns="False" CanUserAddRows="False" CellEditEnding="ProductDataCellEditEnding">
+        <Grid x:Name="Control" Background="White" Height="70" Margin="0,0,0,530" Opacity="0.84">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="21*"/>
+                <ColumnDefinition Width="23*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="Quantity" HorizontalAlignment="Left" Text="{Binding QuantityString, UpdateSourceTrigger=LostFocus}" Margin="188,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" Height="25" FontSize="14" Background="White" KeyDown="Capture_Enter_KeyDown" Grid.Column="1"/>
+
+
+            <TextBox x:Name="UpdatedBy" HorizontalAlignment="Left" Margin="430,35,0,0" TextWrapping="Wrap" Height="31" VerticalAlignment="Top" Width="222" FontSize="16" Grid.ColumnSpan="2"/>
+            <Rectangle HorizontalAlignment="Left" Height="38" Stroke="Black" VerticalAlignment="Top" Width="200" Margin="358,552,0,0" Grid.Column="1">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/schneider-logo.PNG"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Button Content="Select File" HorizontalAlignment="Left" Margin="39,47,0,0" VerticalAlignment="Top" Click="Button_Click" Width="109" Height="20" RenderTransformOrigin="0.569,0.251"/>
+            <Button Content="Load File" HorizontalAlignment="Left" Margin="149,47,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="82" Height="20" RenderTransformOrigin="0.5,-0.299"/>
+            <Button Content="Save and Download" HorizontalAlignment="Left" Margin="302,43,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Click="Button_Click_2" Height="24" Width="240" LostFocus="QREditTextBoxLostFocus" Grid.Column="1"/>
+            <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Text="{Binding SearchString, UpdateSourceTrigger=LostFocus}" Margin="188,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" Height="31" KeyDown="QR_Capture_Enter_KeyDown" FontSize="14" Background="White" LostFocus="QREditTextBoxLostFocus" Grid.Column="1"/>
+            <Button x:Name="Mark" Content="Mark" HorizontalAlignment="Left" Margin="441,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Width="101" Click="Mark_Click" Height="31" Grid.Column="1"/>
+            <Label x:Name="FileName" Content="" HorizontalAlignment="Left" Height="31" Margin="39,10,0,0" VerticalAlignment="Top" Width="191" Foreground="#FFEF1010" Background="#FFF0F0F0" BorderThickness="2,2,2,2" SnapsToDevicePixels="True"/>
+            <ComboBox x:Name="checkComboBox" HorizontalAlignment="Left" Margin="430,10,0,0" VerticalAlignment="Top" Width="222" Height="20" Grid.ColumnSpan="2"/>
+            <Label x:Name="Department" Content="Department :" HorizontalAlignment="Left" Height="28" Margin="320,4,0,0" VerticalAlignment="Top" Width="96" Background="White" BorderThickness="2,2,2,2" SnapsToDevicePixels="True" Foreground="#FF121010" HorizontalContentAlignment="Right" FontWeight="DemiBold"/>
+            <Label x:Name="Checked_By" Content="Checked By :" HorizontalAlignment="Left" Height="31" Margin="331,35,0,0" VerticalAlignment="Top" Width="85" Background="White" BorderThickness="2,2,2,2" SnapsToDevicePixels="True" Foreground="#FF121010" HorizontalContentAlignment="Right" FontWeight="DemiBold"/>
+        </Grid>
+
+
+
+        <DataGrid x:Name="ProductData" d:ItemsSource="{Binding}" Margin="0,25,0,0" Height="480" AutoGenerateColumns="False" CanUserAddRows="False" CellEditEnding="ProductDataCellEditEnding" Visibility="Collapsed">
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="{Binding RowColor}"/>
@@ -27,7 +54,7 @@
                     </DataGridTextColumn.HeaderStyle>
 
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="SR.NO" Width="*" Binding="{Binding SrNO}" IsReadOnly="True">
+                <DataGridTextColumn Header="BRD.NO" Width="*" Binding="{Binding BRDNO}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
@@ -50,63 +77,85 @@
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Header="CHECKACT1" Width="*"  Binding="{Binding CHECKACT1}" IsReadOnly="False">
+                <DataGridTextColumn Header="FAB ACT" Width="*"  Binding="{Binding FABACT}" IsReadOnly="False">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="REMARK1" Width="*"  Binding="{Binding CHECKREMARK1}" IsReadOnly="False">
+                <DataGridTextColumn Header="FAB TIME" Width="*"  Binding="{Binding FABTIME}" IsReadOnly="False">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="SHORTAGE1" Width="*"  Binding="{Binding CHECKSHORTAGE1}" IsReadOnly="True">
+                <DataGridTextColumn Header="FAB SHRT" Width="*"  Binding="{Binding FABSHORTAGE}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="CHECKACT2" Width="*"  Binding="{Binding CHECKACT2}" IsReadOnly="False">
+                <DataGridTextColumn Header="FAB CHKBY" Width="*"  Binding="{Binding FABCHKBY}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="REMARK2" Width="*"  Binding="{Binding CHECKREMARK2}" IsReadOnly="False">
+                <DataGridTextColumn Header="PC ACT" Width="*"  Binding="{Binding PCACT}" IsReadOnly="False">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="SHORTAGE2" Width="*"  Binding="{Binding CHECKSHORTAGE2}" IsReadOnly="True">
+                <DataGridTextColumn Header="PC TIME" Width="*"  Binding="{Binding PCTIME}" IsReadOnly="False">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="CHECKACT3" Width="*"  Binding="{Binding CHECKACT3}" IsReadOnly="False">
+                <DataGridTextColumn Header="PC SHRT" Width="*"  Binding="{Binding PCSHRT}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="REMARK3" Width="*"  Binding="{Binding CHECKREMARK3}" IsReadOnly="False">
+                <DataGridTextColumn Header="PC CHKBY" Width="*"  Binding="{Binding PCCHKBY}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="SHORTAGE3" Width="*"  Binding="{Binding CHECKSHORTAGE3}" IsReadOnly="True">
+
+                <DataGridTextColumn Header="H/O ACT" Width="*"  Binding="{Binding HDACT}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="H/O TIME" Width="*"  Binding="{Binding HDTIME}" IsReadOnly="False">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="H/O SHRT" Width="*"  Binding="{Binding HDSHRT}" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="H/O CHKBY" Width="*"  Binding="{Binding HDCHKBY}" IsReadOnly="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
@@ -116,24 +165,26 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="Select File" HorizontalAlignment="Left" Margin="52,67,0,0" VerticalAlignment="Top" Click="Button_Click" Width="109" Height="20"/>
-        <Button Content="Load File" HorizontalAlignment="Left" Margin="157,67,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="82" Height="20"/>
-        <Button Content="Save and Download" HorizontalAlignment="Left" Margin="263,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Click="Button_Click_2" Height="20" Width="109"/>
-        <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Text="{Binding SearchString, UpdateSourceTrigger=LostFocus}" Margin="650,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="249" Height="31" KeyDown="Capture_Enter_KeyDown" FontSize="14"/>
-        <Button x:Name="Mark" Content="Mark" HorizontalAlignment="Left" Margin="733,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,0.453" Width="101" Click="Mark_Click" Height="20"/>
-        <Label x:Name="FileName" Content="" HorizontalAlignment="Left" Height="27" Margin="55,30,0,0" VerticalAlignment="Top" Width="183" Foreground="#FFEF1010" Background="#FFF0F0F0"/>
-        <ComboBox x:Name="checkComboBox" HorizontalAlignment="Left" Margin="423,35,0,0" VerticalAlignment="Top" Width="120"/>
+        <Rectangle HorizontalAlignment="Left" Height="38" Stroke="Black" VerticalAlignment="Top" Width="200" Margin="883,554,0,0">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/schneider-logo.PNG"/>
+            </Rectangle.Fill>
+        </Rectangle>
 
-        <!--<Rectangle Height="49" Margin="0,698,0,0" Stroke="Black" VerticalAlignment="Top" Fill="#FFFDFCFC" HorizontalAlignment="Center" Width="1100"/>
-        <Image x:Name="lOGO" Source="Assets/schneider-logo.PNG" HorizontalAlignment="Left" Margin="891,674,0,1" Width="210"/>-->
+        <Grid x:Name="BackDrop" Background="#4C000007" Margin="0,0,0,7" Height="600" VerticalAlignment="Bottom" Visibility="Hidden">
 
-        <Grid x:Name="BackDrop" Background="#4C000007" Margin="0,-31,0,-1">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,311,0,0" x:Name="ProgressLoader">
                 <Rectangle HorizontalAlignment="Center" Height="100" Stroke="Black" VerticalAlignment="Top" Width="380" Fill="White"/>
                 <ProgressBar x:Name="ProgressBarSticker" HorizontalAlignment="Center" Height="18" Margin="0,32,0,0" VerticalAlignment="Top" Width="312" Background="#FFF9F3F3" OpacityMask="#FF720F7D"/>
                 <Label x:Name="ProgressMessage" Content="" HorizontalAlignment="Center" Height="29" Margin="0,55,0,0" VerticalAlignment="Top" Width="234" RenderTransformOrigin="0.5,0.932" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
-        </Grid>
 
+
+
+
+            <!--<Rectangle Height="49" Margin="0,698,0,0" Stroke="Black" VerticalAlignment="Top" Fill="#FFFDFCFC" HorizontalAlignment="Center" Width="1100"/>
+        <Image x:Name="lOGO" Source="Assets/schneider-logo.PNG" HorizontalAlignment="Left" Margin="891,674,0,1" Width="210"/>-->
+
+        </Grid>
     </Grid>
 </Window>
