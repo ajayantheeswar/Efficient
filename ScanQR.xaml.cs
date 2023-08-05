@@ -522,7 +522,7 @@ namespace Win
 
         private void QREditTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            
+
             Quantity.Focus();
         }
         
@@ -531,7 +531,15 @@ namespace Win
             if (e.Key.Equals(Key.Enter))
             {
                 Quantity.Focus();
+            }else if (e.Key.Equals(Key.Tab)) {
+                
+                Quantity.Focus();
             }
+        }
+
+        private void QREditTextBoxLostFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+
         }
     }
 }
