@@ -460,7 +460,9 @@ namespace Win
             if(xlWorkSheet != null) Marshal.ReleaseComObject(xlWorkSheet);
             if (xlWorkBook != null)  Marshal.ReleaseComObject(xlWorkBook);
             Marshal.ReleaseComObject(xlApp);
-
+            xlApp = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             return isSuccess;
         }
        
@@ -568,7 +570,9 @@ namespace Win
             if(xlWorkSheetSource != null) Marshal.ReleaseComObject(xlWorkSheetSource);
             if (xlWorkBookSource != null) Marshal.ReleaseComObject(xlWorkBookSource);
             Marshal.ReleaseComObject(xlApp);
-
+            xlApp = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
             return editableDataViewExcels;
         }

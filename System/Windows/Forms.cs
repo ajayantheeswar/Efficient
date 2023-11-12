@@ -385,9 +385,10 @@ namespace Win
                 misValue, misValue, misValue, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
 
 
+                
                 xlWorkBook.Close(false, misValue, misValue);
 
-                xlApp.Quit();
+                
 
                 
             }
@@ -396,14 +397,22 @@ namespace Win
 
             }
 
+            xlApp.Quit();
 
             Marshal.ReleaseComObject(xlWorkSheet);
             Marshal.ReleaseComObject(xlWorkBook);
-
-
             Marshal.ReleaseComObject(xlApp);
 
-            
+            xlApp = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+
+
+
+
+
         }
     }
 }

@@ -50,6 +50,7 @@ namespace Win
 
         }
 
+       
         public class LoadWorkerArgument
         {
             public string? FilePath;
@@ -222,9 +223,9 @@ namespace Win
                         if (rowNumber > 1)
                         {
                             ProductRow product = new ProductRow();
-                            product.ProductionNumber = xlWorkSheetSource.Cells[rowNumber, 1].Value.ToString();
-                            product.CATNO = xlWorkSheetSource.Cells[rowNumber, 3].Value.ToString();
-                            product.QTY = xlWorkSheetSource.Cells[rowNumber, 8].Value.ToString();
+                            product.ProductionNumber = getCellsValue(xlWorkSheetSource, rowNumber, 1);
+                            product.CATNO = getCellsValue(xlWorkSheetSource, rowNumber, 3); 
+                            product.QTY = getCellsValue(xlWorkSheetSource, rowNumber, 8);  
 
 
                             if (
@@ -252,23 +253,24 @@ namespace Win
                         
                         rowNumber++;
                     }
-
+                    object misValue = System.Reflection.Missing.Value;
+                    xlWorkBookSource.Close(false, misValue,misValue);
                     
+
                 }
             }
             catch(Exception e) {
                 // Known Exception - Alternative Required
-                if(xlWorkBookSource != null)
-                    xlWorkBookSource.Close(false);
-                if(xlApp != null)
-                    xlApp.Quit();
-
-                if (xlWorkSheetSource != null) Marshal.ReleaseComObject(xlWorkSheetSource);
-                if (xlWorkBookSource != null) Marshal.ReleaseComObject(xlWorkBookSource);
-                Marshal.ReleaseComObject(xlApp);
+                
             }
 
-            
+            xlApp.Quit();
+            if (xlWorkSheetSource != null) Marshal.ReleaseComObject(xlWorkSheetSource);
+            if (xlWorkBookSource != null) Marshal.ReleaseComObject(xlWorkBookSource);
+            Marshal.ReleaseComObject(xlApp);
+            xlApp = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             return productList;
         }
 
@@ -277,6 +279,21 @@ namespace Win
             System.Windows.Window ScanQr = new ScanQR();
             ScanQr.Show();
             this.Close();
+        }
+
+
+        private static string getCellsValue(Microsoft.Office.Interop.Excel.Worksheet xlWorkSheetSource, int row, int column)
+        {
+            string value = string.Empty;
+            try
+            {
+                value = xlWorkSheetSource.Cells[row, column].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return value;
         }
 
         private void Load_Button_Click(object sender, RoutedEventArgs e)

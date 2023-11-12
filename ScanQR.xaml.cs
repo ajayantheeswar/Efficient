@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
+
 namespace Win
 {
     /// <summary>
@@ -318,6 +319,7 @@ namespace Win
                         ComboData? SelectedItem = checkComboBox.SelectedItem as ComboData;
                         string shortage = string.Empty;
                         isSearchFound = true;
+                        string message = "Do you want to overwrite this ?";
 
                         row.RowColor = EditableDataViewExcel.Yellow;
 
@@ -327,51 +329,104 @@ namespace Win
                         }
                         if (SelectedItem.ID == CheckList.Check1)
                         {
-                            row.FABTIME = DateTime.Now.ToString();
-                            row.FABCHKBY = UpdatedBy.Text;
+                            bool update = false;
+                            if (!string.IsNullOrEmpty(row.FABTIME))
+                            {
+                                MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                                if (dialogResult == MessageBoxResult.Yes)
+                                {
+                                    update = true;
+                                }
+
+                            }
+                            else
+                            {
+                                update = true;
+                            }
+                            if (update) { 
+                                row.FABTIME = DateTime.Now.ToString();
+                                row.FABCHKBY = UpdatedBy.Text;
                             
-                            if(hasActualQuantity)
-                            {
-                                row.FABACT = ActualQTY.ToString();
-                                row.FABSHORTAGE = GetTotalShortage(row.Qty, ActualQTY.ToString());
-                            } else
-                            {
-                                row.FABACT = row.Qty;
-                                row.FABSHORTAGE = string.Empty;
+                                if(hasActualQuantity)
+                                {
+                                    row.FABACT = ActualQTY.ToString();
+                                    row.FABSHORTAGE = GetTotalShortage(row.Qty, ActualQTY.ToString());
+                                } else
+                                {
+                                    row.FABACT = row.Qty;
+                                    row.FABSHORTAGE = string.Empty;
+                                }
                             }
                         }
                         else if (SelectedItem.ID == CheckList.Check2)
                         {
-                            row.PCTIME = DateTime.Now.ToString();
-                            row.PCCHKBY = UpdatedBy.Text;
-
-                            if (hasActualQuantity)
+                            bool update = false;
+                            if (!string.IsNullOrEmpty(row.PCTIME))
                             {
-                                row.PCACT = ActualQTY.ToString();
-                                row.PCSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
+                                MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                                if (dialogResult == MessageBoxResult.Yes)
+                                {
+                                    update = true;
+                                }
 
-                            }else
+                            }
+                            else
                             {
-                                row.PCACT = row.Qty;
-                                row.PCSHRT = string.Empty;
+                                update = true;
+                            }
+                            if (update)
+                            {
+
+                                row.PCTIME = DateTime.Now.ToString();
+                                row.PCCHKBY = UpdatedBy.Text;
+
+                                if (hasActualQuantity)
+                                {
+                                    row.PCACT = ActualQTY.ToString();
+                                    row.PCSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
+
+                                }
+                                else
+                                {
+                                    row.PCACT = row.Qty;
+                                    row.PCSHRT = string.Empty;
+                                }
                             }
                         }
                         else if (SelectedItem.ID == CheckList.Check3)
                         {
-                            row.HDTIME = DateTime.Now.ToString();
-                            row.HDCHKBY = UpdatedBy.Text;
-                            if (hasActualQuantity)
+                            bool update = false;
+                            if (!string.IsNullOrEmpty(row.HDTIME))
                             {
-                                row.HDACT = ActualQTY.ToString();
-                                row.HDSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
-                            } else
+                                MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                                if (dialogResult == MessageBoxResult.Yes)
+                                {
+                                    update = true;
+                                }
+
+                            }
+                            else
                             {
-                                row.HDACT = row.Qty;
-                                row.HDSHRT = string.Empty;
+                                update = true;
+                            }
+                            if (update)
+                            {
+                                row.HDTIME = DateTime.Now.ToString();
+                                row.HDCHKBY = UpdatedBy.Text;
+                                if (hasActualQuantity)
+                                {
+                                    row.HDACT = ActualQTY.ToString();
+                                    row.HDSHRT = GetTotalShortage(row.Qty, ActualQTY.ToString());
+                                }
+                                else
+                                {
+                                    row.HDACT = row.Qty;
+                                    row.HDSHRT = string.Empty;
+                                }
                             }
                         }
                        this.ProductData.ScrollIntoView(this.ProductData.Items[index]);
-                        this.ProductData.UpdateLayout();
+                       this.ProductData.UpdateLayout();
                     }
                     else
                     {
@@ -485,33 +540,84 @@ namespace Win
                     int.TryParse(DataRow.Qty, out QTY);
 
                     int difference = QTY - AcutalNumber;
+                    string message = "Do you want to overwrite this ?";
 
                     if (bindingPath.Equals("FABACT") && SelectedItem.ID == CheckList.Check1)
                     {
-                        
-                        if (isValid)
+                        bool update = false;
+                        if (!string.IsNullOrEmpty(DataRow.FABTIME))
                         {
-                            DataRow.FABSHORTAGE = difference != 0 ? (difference).ToString(): "";
-                            DataRow.FABTIME = DateTime.Now.ToString();
-                            DataRow.FABCHKBY = UpdatedBy.Text;
+                            MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.Yes)
+                            {
+                                update = true;
+                            }
+
+                        }
+                        else
+                        {
+                            update = true;
+                        }
+                        if (update)
+                        {
+                            if (isValid)
+                            {
+                                DataRow.FABSHORTAGE = difference != 0 ? (difference).ToString() : "";
+                                DataRow.FABTIME = DateTime.Now.ToString();
+                                DataRow.FABCHKBY = UpdatedBy.Text;
+                            }
                         }
                         
                     }else if (bindingPath.Equals("PCACT") && SelectedItem.ID == CheckList.Check2) {
-                        if (isValid)
+                        bool update = false;
+                        if (!string.IsNullOrEmpty(DataRow.PCTIME))
                         {
-                            DataRow.PCSHRT = difference != 0 ? (difference).ToString() : "";
-                            DataRow.PCSHRT = DateTime.Now.ToString();
-                            DataRow.PCCHKBY = UpdatedBy.Text;
+                            MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.Yes)
+                            {
+                                update = true;
+                            }
+
+                        }
+                        else
+                        {
+                            update = true;
+                        }
+                        if (update)
+                        {
+                            if (isValid)
+                            {
+                                DataRow.PCSHRT = difference != 0 ? (difference).ToString() : "";
+                                DataRow.PCTIME = DateTime.Now.ToString();
+                                DataRow.PCCHKBY = UpdatedBy.Text;
+                            }
                         }
 
 
                     } else if (bindingPath.Equals("H/OACT") && SelectedItem.ID == CheckList.Check3)
                     {
-                        if (isValid)
+                        bool update = false;
+                        if (!string.IsNullOrEmpty(DataRow.HDTIME))
                         {
-                            DataRow.HDSHRT = difference != 0 ? (difference).ToString() : "";
-                            DataRow.HDTIME = DateTime.Now.ToString();
-                            DataRow.HDCHKBY = UpdatedBy.Text;
+                            MessageBoxResult dialogResult = MessageBox.Show(message, "Warning", MessageBoxButton.YesNo);
+                            if (dialogResult == MessageBoxResult.Yes)
+                            {
+                                update = true;
+                            }
+
+                        }
+                        else
+                        {
+                            update = true;
+                        }
+                        if (update)
+                        {
+                            if (isValid)
+                            {
+                                DataRow.HDSHRT = difference != 0 ? (difference).ToString() : "";
+                                DataRow.HDTIME = DateTime.Now.ToString();
+                                DataRow.HDCHKBY = UpdatedBy.Text;
+                            }
                         }
                     }
 
@@ -540,6 +646,27 @@ namespace Win
         private void QREditTextBoxLostFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             Quantity.Focus();
+        }
+
+        private void Clear(object sender, RoutedEventArgs e)
+        {
+            DataRow = new ObservableCollection<EditableDataViewExcel>();
+            ProductData.ItemsSource = DataRow;
+
+            this.ProductData.Visibility = Visibility.Collapsed;
+            //SearchBox.LostKeyboardFocus += SearchBox_LostKeyboardFocus;
+            checkComboBox.ItemsSource = ComboData.ComboBoxData;
+            checkComboBox.SelectedIndex = 0;
+
+
+
+            ProgressBarSticker.Maximum = 100;
+            ProgressBarSticker.Value = 0;
+
+            BackDrop.Visibility = Visibility.Collapsed;
+
+            FilePath = String.Empty;
+            FileName.Content = String.Empty;
         }
     }
 }
